@@ -53,7 +53,8 @@ app.get("/", function(req, res) {
     }
     // Or send the doc to the browser as a json object
     else {
-      res.json(doc);
+      //res.json(doc);
+      res.render("index", {articles: doc});
     }
   });
 });
@@ -76,9 +77,7 @@ app.get("/scrape", function(req, res) {
       var entry = new Article(result);
       // Now, save that entry to the db..basically a new row
       Article.findOne({ "title": result.title })
-
         .exec(function(error, doc) {
-          console.log({ "title": result.title });
         // Log any errors, connecting or reading from database
           if (error) {
            console.log(error);
@@ -93,7 +92,7 @@ app.get("/scrape", function(req, res) {
                   }
                   // Or log the doc
                   else {
-                    // console.log(doc);
+                    console.log(doc);
                   }
                 });
             }
@@ -104,26 +103,26 @@ app.get("/scrape", function(req, res) {
   // });
 
   // Tell the browser that we finished scraping the text
-  res.send("Scrape Complete");
-  res.redirect("/articles");
+  //res.send("Scrape Complete");
+  res.redirect("/");
   
 });
 
 
-  // This will get the articles we scraped from the mongoDB
-app.get("/articles", function(req, res) {
-  // Grab every doc in the Articles array
-  Article.find({}, function(error, doc) {
-    // Log any errors
-    if (error) {
-      console.log(error);
-    }
-    // Or send the doc to the browser as a json object
-    else {
-      res.json(doc);
-    }
-  });
-});
+//   // This will get the articles we scraped from the mongoDB
+// app.get("/articles", function(req, res) {
+//   // Grab every doc in the Articles array
+//   Article.find({}, function(error, doc) {
+//     // Log any errors
+//     if (error) {
+//       console.log(error);
+//     }
+//     // Or send the doc to the browser as a json object
+//     else {
+//       res.json(doc);
+//     }
+//   });
+// });
 
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
