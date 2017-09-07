@@ -29,7 +29,7 @@ app.set("view engine", "handlebars");
 // Make public a static dir
 app.use(express.static("public"));
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/week18day3mongoose");
+mongoose.connect("mongodb://heroku_zn9wl7qn:s1do40fqk7uqd2hs07b51rd7vi@ds129004.mlab.com:29004/heroku_zn9wl7qn");
 var db = mongoose.connection;
 // Show any mongoose errors
 db.on("error", function(error) {
