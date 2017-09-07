@@ -20,6 +20,12 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
+//Requiring Handlebars
+let exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 // Make public a static dir
 app.use(express.static("public"));
 // Database configuration with mongoose
@@ -99,7 +105,7 @@ app.get("/scrape", function(req, res) {
 
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
-  // res.redirect("/articles");
+  res.redirect("/articles");
   
 });
 
