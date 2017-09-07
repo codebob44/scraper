@@ -36,15 +36,26 @@ db.once("open", function() {
 // Routes
 // ======
 // A GET request to scrape the echojs website
-// app.get("/monday", function(req, res) {
-//   Article.find({}, {
-    
-//   })
-// })
+// 
+
+app.get("/", function(req, res) {
+  // Grab every doc in the Articles array
+  Article.find({}, function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Or send the doc to the browser as a json object
+    else {
+      res.json(doc);
+    }
+  });
+});
+
 
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
-  request("http://www.echojs.com/", function(error, response, html) {
+  request("http://www.theonion.com/", function(error, response, html) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(html);
     // Now, we grab every h2 within an article tag, and do the following:
@@ -76,7 +87,7 @@ app.get("/scrape", function(req, res) {
                   }
                   // Or log the doc
                   else {
-                    console.log(doc);
+                    // console.log(doc);
                   }
                 });
             }
@@ -88,7 +99,26 @@ app.get("/scrape", function(req, res) {
 
   // Tell the browser that we finished scraping the text
   res.send("Scrape Complete");
+  // res.redirect("/articles");
+  
 });
+
+
+  // This will get the articles we scraped from the mongoDB
+app.get("/articles", function(req, res) {
+  // Grab every doc in the Articles array
+  Article.find({}, function(error, doc) {
+    // Log any errors
+    if (error) {
+      console.log(error);
+    }
+    // Or send the doc to the browser as a json object
+    else {
+      res.json(doc);
+    }
+  });
+});
+
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
   // Grab every doc in the Articles array
@@ -103,6 +133,7 @@ app.get("/articles", function(req, res) {
     }
   });
 });
+
 // Grab an article by it's ObjectId
 app.get("/articles/:id", function(req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
@@ -121,6 +152,7 @@ app.get("/articles/:id", function(req, res) {
     }
   });
 });
+
 // Create a new note or replace an existing note
 app.post("/articles/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
@@ -149,6 +181,7 @@ app.post("/articles/:id", function(req, res) {
     }
   });
 });
+
 // Listen on port 3000
 app.listen(3000, function() {
   console.log("App running on port 3000!");
